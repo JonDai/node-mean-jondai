@@ -6,6 +6,16 @@ module.exports = function(config) {
     // base path, that will be used to resolve files and exclude
     basePath: '',
 
+    plugins : [
+      'karma-chrome-launcher',
+      'karma-firefox-launcher',
+      'karma-ng-html2js-preprocessor',
+      'karma-babel-preprocessor',
+      'karma-spec-reporter',
+      'karma-mocha',
+      'karma-chai-plugins',
+    ],
+
     // testing framework to use (jasmine/mocha/qunit/...)
     frameworks: ['mocha', 'chai', 'sinon-chai', 'chai-as-promised', 'chai-things'],
 
@@ -18,6 +28,15 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       // bower:js
+      'client/bower_components/jquery/dist/jquery.js',
+      'client/bower_components/angular/angular.js',
+      'client/bower_components/angular-resource/angular-resource.js',
+      'client/bower_components/angular-cookies/angular-cookies.js',
+      'client/bower_components/angular-sanitize/angular-sanitize.js',
+      'client/bower_components/angular-route/angular-route.js',
+      'client/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+      'client/bower_components/lodash/dist/lodash.compat.js',
+      'client/bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'client/app/app.js',
       'client/{app,components}/**/*.module.js',
@@ -76,7 +95,7 @@ module.exports = function(config) {
     // - Safari (only Mac)
     // - PhantomJS
     // - IE (only Windows)
-    browsers: ['PhantomJS'],
+    browsers: ['Chrome'],
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit

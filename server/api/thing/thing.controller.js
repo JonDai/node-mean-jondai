@@ -45,7 +45,8 @@ function removeEntity(res) {
 function handleEntityNotFound(res) {
   return function(entity) {
     if (!entity) {
-      return res.status(404).end();
+      res.status(404).end();
+      return null;
     }
     return entity;
   };
