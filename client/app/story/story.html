@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">News:</h1>
+      <div>
+        <div ng-repeat="story in $ctrl.awesomeStories">
+          <div class="col-xs-6 col-md-4">
+            <a href="#" class="thumbnail">
+              <img src="{{story.images}}" alt="...">
+            </a>
+            {{story.title}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

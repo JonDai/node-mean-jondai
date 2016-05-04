@@ -20,6 +20,9 @@
     "method-override": "^2.3.5",
     "mongoose": "^4.1.2",
     "morgan": "~1.7.0",
+    "node-schedule": "^1.1.0",
+    "qiniu": "^6.1.10",
+    "request": "^2.72.0",
     "selenium-webdriver": "^2.53.2",
     "serve-favicon": "^2.3.0"
   },
