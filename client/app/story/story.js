@@ -8,5 +8,9 @@ angular.module('jondaiApp')
     $routeProvider
       .when('/story', {
         template: '<story></story>'
-      });
+      })
+      .when('/story/:id', {
+        template: '<storyshow></storyshow>'
+      })
+    ;
   });

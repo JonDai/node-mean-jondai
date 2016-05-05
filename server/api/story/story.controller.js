@@ -5,10 +5,17 @@
 'use strict'
 import _ from 'lodash';
 import Story from './story.model.js';
+import StoryDetail from './story.detail.model';
 
 export function index(req, res) {
-  console.log("this is test:--------------");
   return Story.find().exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+export function show(req, res){
+  return StoryDetail.findOne({wiki_id:req.params.id}).exec()
+    .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }

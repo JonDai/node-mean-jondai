@@ -5,9 +5,11 @@
 var schedule = require('node-schedule');
 var superagent = require('superagent');
 var Story = require('./story.model');
+var StoryDetail = require('./story.detail.model');
 var constant = require('../../config/local.env');
 var qiniu = require("../../components/util/qiniu");
 var downloadUtil = require('../../components/util/DownloadUtil');
+var PictureUtil = require("../../components/util/PictureUtil");
 var env = require('../../config/local.env');
 
 var db = require('../../components/util/database');
@@ -96,8 +98,37 @@ var updatePicAndSave = function (story) {
     console.log('new images:'+story.images);
     story.save(function (err,result) {
       if(err) console.error('story保存失败'+err);
+      else{
+        loadStoryDetail(result);
+      }
     });
   });
+}
+
+var loadStoryDetail = function (story) {
+  superagent.get(env.ZHIHU_NEWS_URL+story.wiki_id)
+    .end(function (err, sres) {
+      if (err) {
+        console.error(err);
+      } else {
+
+        var detail = JSON.parse(sres.text);
+        var storyDetail = new StoryDetail({
+          body: detail.body,
+          title: detail.title,
+          image: detail.image,
+          type: detail.type,
+          wiki_id: detail.id
+        });
+
+        //替换图片地址
+        //下载图片
+        var key = 'zh' + storyDetail.wiki_id;
+        PictureUtil.resetURL(storyDetail.image,key);
+        storyDetail.image = env.qiniu_conf_URL+key;
+        storyDetail.save();
+      }
+    });
 }
 
 

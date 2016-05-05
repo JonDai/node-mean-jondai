@@ -24,7 +24,8 @@
     "qiniu": "^6.1.10",
     "request": "^2.72.0",
     "selenium-webdriver": "^2.53.2",
-    "serve-favicon": "^2.3.0"
+    "serve-favicon": "^2.3.0",
+    "superagent": "^1.8.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.0.0",

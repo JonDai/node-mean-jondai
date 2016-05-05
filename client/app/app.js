@@ -10,9 +10,6 @@ angular.module('jondaiApp', [
 ])
   .config(function($routeProvider, $locationProvider) {
     $routeProvider
-      .when('/story',{
-        template: '<story></story>'
-      })
       .otherwise({
         redirectTo: '/'
       });
