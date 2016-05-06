@@ -9,6 +9,7 @@ import mongoose from 'mongoose';
 mongoose.Promise = require('bluebird');
 import config from './config/environment';
 import http from 'http';
+// import StoryTask from './api/story/story.task';
 
 // Connect to MongoDB
 mongoose.connect(config.mongo.uri, config.mongo.options);
@@ -32,6 +33,9 @@ function startServer() {
     console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
   });
 }
+
+//轮询抓取
+// StoryTask
 
 setImmediate(startServer);
 

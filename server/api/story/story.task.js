@@ -4,6 +4,7 @@
  */
 var schedule = require('node-schedule');
 var superagent = require('superagent');
+var cheerio =require('cheerio');
 var Story = require('./story.model');
 var StoryDetail = require('./story.detail.model');
 var constant = require('../../config/local.env');
@@ -12,10 +13,11 @@ var downloadUtil = require('../../components/util/DownloadUtil');
 var PictureUtil = require("../../components/util/PictureUtil");
 var env = require('../../config/local.env');
 
-var db = require('../../components/util/database');
+// var db = require('../../components/util/database');
 
 var rule = new schedule.RecurrenceRule();
-rule.second = [10,20,30,40,50,0];
+// rule.second = [10,20,30,40,50,0];
+rule.hour = [6,8,12,15,17,20,24];
 
 var j = schedule.scheduleJob(rule, function(){
   console.log('正在去获取最新的知乎api...!');
@@ -37,7 +39,7 @@ var savestory = function (jsonData) {
         stories = jsonObj.stories,
         topStories = jsonObj.top_stories;
 
-    for(s in stories){
+    for(var s in stories){
       var storie = stories[s];
       var story = new Story({
         title:      storie.title,
@@ -52,7 +54,7 @@ var savestory = function (jsonData) {
       checksaveNew(story);
     };
 
-    for(s in topStories){
+    for(var s in topStories){
       var storie = topStories[s];
       var images = storie.images ? storie.images[0] : storie.image;
       var story = new Story({
@@ -72,7 +74,7 @@ var savestory = function (jsonData) {
 
 var checksaveNew = function(story){
   Story.find({wiki_id:story.wiki_id},function (err,result) {
-    falg = result.length > 0 ? false : true;
+    var falg = result.length > 0 ? false : true;
     if(falg){
       updatePicAndSave(story);
     }else{
@@ -122,10 +124,19 @@ var loadStoryDetail = function (story) {
         });
 
         //替换图片地址
-        //下载图片
         var key = 'zh' + storyDetail.wiki_id;
         PictureUtil.resetURL(storyDetail.image,key);
         storyDetail.image = env.qiniu_conf_URL+key;
+        //替换文章中图片地址
+        var $ = cheerio.load(storyDetail.body);
+
+        $('img').each(function(i, elem) {
+          var oldURL = $(this).attr('src');
+          console.log("OLD URL"+oldURL);
+          var key = "zh-"+Math.random();
+          PictureUtil.resetURL(oldURL,key);
+          storyDetail.body = storyDetail.body.toString().replace(oldURL,env.qiniu_conf_URL+key);
+        });
         storyDetail.save();
       }
     });

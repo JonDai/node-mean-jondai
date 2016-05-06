@@ -1,32 +1,15 @@
 /**
- * Created by JonDai on 2016/5/4.
+ * Created by JonDai on 2016/5/6.
+ * server 业务逻辑处理
  */
-
-'use strict'
-import _ from 'lodash';
-import Story from './story.model.js';
-import StoryDetail from './story.detail.model';
-import DateUtil from '../../components/util/DateUtil';
+var Music = require('./music.model');
+var _ = require('lodash');
 
 export function index(req, res) {
-  return Story.find({date:DateUtil.getYYMMDD}).exec()
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+  
 }
 
-export function show(req, res){
-  return StoryDetail.findOne({wiki_id:req.params.id}).exec()
-    .then(handleEntityNotFound(res))
-    .then(respondWithResult(res))
-    .catch(handleError(res));
-}
 
-export function create(req, res) {
-  console.log(req);
-  return Story.create(req.body)
-    .then(respondWithResult(res, 201))
-    .catch(handleError(res));
-}
 
 
 function respondWithResult(res, statusCode) {

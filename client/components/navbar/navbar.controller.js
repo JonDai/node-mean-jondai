@@ -4,12 +4,20 @@ class NavbarController {
   //start-non-standard
   menu = [
     {
-      'title': 'Home',
+      'title': '首页',
       'link': '/'
+    },
+    {
+      'title': '音乐',
+      'link': '/music'
     },
     {
       'title':'故事',
       'link' : '/story'
+    },
+    {
+      'title': '个人中心',
+      'link': 'usercenter'
     }
   ];
 
